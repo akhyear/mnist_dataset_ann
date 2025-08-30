@@ -10,14 +10,14 @@ def preprocess_data(X):
     X = X.astype('float32') / 255.0
     return X
 
-# Load only the model (use 'model.pkl' which contains just the model)
+# Load the pipeline and extract the model
 @st.cache_resource
-def load_model():
-    with open('model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    return model
+def load_model_pipeline():
+    with open('mnist_pipeline.pkl', 'rb') as f:
+        pipeline = pickle.load(f)
+    return pipeline['model']
 
-model = load_model()
+model = load_model_pipeline()
 
 # App title and description
 st.title('MNIST Digit Classifier')
@@ -64,4 +64,5 @@ st.sidebar.write("""
 - **Architecture**: Flatten -> Dense(128, ReLU) -> Dense(32, ReLU) -> Dense(10, Softmax)
 - **Training**: 15 epochs on MNIST, ~97.5% validation accuracy (from notebook)
 - **Input**: 28x28 grayscale images, scaled to [0,1]
+- **Loaded from**: mnist_pipeline.pkl (model extracted)
 """)
